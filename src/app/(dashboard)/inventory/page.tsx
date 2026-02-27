@@ -7,6 +7,64 @@ import { redirect } from 'next/navigation';
 import { createServerSupabaseClient } from '@/lib/auth-client';
 import { InventoryForm } from '@/components/inventory/inventory-form';
 import { InventoryList } from '@/components/inventory/inventory-list';
+import type { AlertType, InventoryUnit } from '@/types/inventory';
+
+interface InventoryItemRow {
+  id: string;
+  product_name: string;
+  category: string;
+  supplier: string | null;
+  sku: string | null;
+  unit: string;
+  quantity: number;
+  min_stock_level: number;
+  max_stock_level: number;
+  unit_cost: number;
+  selling_price: number | null;
+  expiry_date: string | null;
+  batch_number: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+interface InventoryAlertRow {
+  id: string;
+  inventory_item_id: string;
+  alert_type: string;
+  message: string;
+  is_resolved: boolean;
+  resolved_at: string | null;
+  created_at: string;
+}
+
+function toInventoryUnit(value: string): InventoryUnit {
+  if (
+    value === 'ml' ||
+    value === 'g' ||
+    value === 'mg' ||
+    value === 'unit' ||
+    value === 'box' ||
+    value === 'syringe'
+  ) {
+    return value;
+  }
+
+  return 'unit';
+}
+
+function toAlertType(value: string): AlertType {
+  if (
+    value === 'low_stock' ||
+    value === 'expiry_warning' ||
+    value === 'expired' ||
+    value === 'overstocked'
+  ) {
+    return value;
+  }
+
+  return 'low_stock';
+}
 
 export default async function InventoryPage() {
   const supabase = await createServerSupabaseClient();
@@ -40,33 +98,36 @@ export default async function InventoryPage() {
 
     if (alertsError) throw alertsError;
 
-    const normalizedItems = (items || []).map((i: Record<string, unknown>) => ({
-      id: i.id as string,
-      productName: i.product_name as string,
-      category: i.category as string,
-      supplier: i.supplier as string | undefined,
-      sku: i.sku as string | undefined,
-      unit: i.unit as string,
-      quantity: i.quantity as number,
-      minStockLevel: i.min_stock_level as number,
-      maxStockLevel: i.max_stock_level as number,
-      unitCost: i.unit_cost as number,
-      sellingPrice: i.selling_price as number | undefined,
-      expiryDate: i.expiry_date as string | undefined,
-      batchNumber: i.batch_number as string | undefined,
-      isActive: i.is_active as boolean,
-      createdAt: i.created_at as string,
-      updatedAt: i.updated_at as string,
+    const typedItems = (items ?? []) as InventoryItemRow[];
+    const typedAlerts = (alerts ?? []) as InventoryAlertRow[];
+
+    const normalizedItems = typedItems.map((item) => ({
+      id: item.id,
+      productName: item.product_name,
+      category: item.category,
+      supplier: item.supplier ?? undefined,
+      sku: item.sku ?? undefined,
+      unit: toInventoryUnit(item.unit),
+      quantity: item.quantity,
+      minStockLevel: item.min_stock_level,
+      maxStockLevel: item.max_stock_level,
+      unitCost: item.unit_cost,
+      sellingPrice: item.selling_price ?? undefined,
+      expiryDate: item.expiry_date ?? undefined,
+      batchNumber: item.batch_number ?? undefined,
+      isActive: item.is_active,
+      createdAt: item.created_at,
+      updatedAt: item.updated_at,
     }));
 
-    const normalizedAlerts = (alerts || []).map((a: Record<string, unknown>) => ({
-      id: a.id as string,
-      inventoryItemId: a.inventory_item_id as string,
-      alertType: a.alert_type as string,
-      message: a.message as string,
-      isResolved: a.is_resolved as boolean,
-      resolvedAt: a.resolved_at as string | undefined,
-      createdAt: a.created_at as string,
+    const normalizedAlerts = typedAlerts.map((alert) => ({
+      id: alert.id,
+      inventoryItemId: alert.inventory_item_id,
+      alertType: toAlertType(alert.alert_type),
+      message: alert.message,
+      isResolved: alert.is_resolved,
+      resolvedAt: alert.resolved_at ?? undefined,
+      createdAt: alert.created_at,
     }));
 
     const now = new Date();
