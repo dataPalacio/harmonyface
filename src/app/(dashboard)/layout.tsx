@@ -16,7 +16,7 @@ import {
 const links = [
   { href: '/patients', label: 'Pacientes', icon: Users },
   { href: '/appointments', label: 'Agenda', icon: Calendar },
-  { href: '/treatments', label: 'Tratamentos', icon: Sparkles },
+  { href: '/medical-records', label: 'Prontuário', icon: Sparkles },
   { href: '/inventory', label: 'Estoque', icon: Package },
   { href: '/financial', label: 'Financeiro', icon: DollarSign },
   { href: '/reports', label: 'Relatórios', icon: BarChart3 },

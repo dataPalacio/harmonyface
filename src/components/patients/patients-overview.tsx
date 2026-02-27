@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Search, ArrowDownAZ, ArrowUpZA, UserPlus, Phone, Mail, User } from 'lucide-react';
+import { Search, ArrowDownAZ, ArrowUpZA, UserPlus, Phone, Mail, User, Users, CalendarDays, TrendingUp, Info } from 'lucide-react';
 import type { Patient } from '@/types/patient';
 import { deletePatientAction, createPatientAction } from '@/app/(dashboard)/patients/actions';
 import { CreatePatientSchema, type CreatePatientInput } from '@/lib/validations/patient-schema';
@@ -14,6 +14,18 @@ type PatientsOverviewProps = {
 };
 
 type SortOrder = 'asc' | 'desc';
+
+function calculateAge(birthDate?: string) {
+  if (!birthDate) return null;
+  const today = new Date();
+  const birth = new Date(birthDate);
+  let age = today.getFullYear() - birth.getFullYear();
+  const m = today.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+  return age;
+}
 
 export function PatientsOverview({ patients }: PatientsOverviewProps) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -84,8 +96,53 @@ export function PatientsOverview({ patients }: PatientsOverviewProps) {
     <section className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Pacientes</h1>
-          <p className="text-muted-foreground mt-1">Gerencie os cadastros e acesse os prontuários</p>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Pacientes</h1>
+          <p className="text-slate-500 mt-1">Gerencie os cadastros e acesse os prontuários clínicos completos.</p>
+        </div>
+      </div>
+
+      {/* KPI Cards */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="rounded-xl border bg-white p-4 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg bg-indigo-50 p-2 text-indigo-600">
+              <Users className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-slate-500">Total de Pacientes</p>
+              <h3 className="text-2xl font-bold text-slate-900">{patients.length}</h3>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border bg-white p-4 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg bg-emerald-50 p-2 text-emerald-600">
+              <TrendingUp className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-slate-500">Novos este mês</p>
+              <h3 className="text-2xl font-bold text-slate-900">
+                {patients.filter(p => {
+                  const date = new Date(p.createdAt);
+                  const now = new Date();
+                  return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+                }).length}
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border bg-white p-4 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg bg-blue-50 p-2 text-blue-600">
+              <CalendarDays className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-slate-500">Média de Idade</p>
+              <h3 className="text-2xl font-bold text-slate-900">
+                {Math.round(patients.reduce((acc, p) => acc + (calculateAge(p.birthDate) || 0), 0) / (patients.filter(p => p.birthDate).length || 1))} anos
+              </h3>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -247,8 +304,8 @@ export function PatientsOverview({ patients }: PatientsOverviewProps) {
                       </div>
                       <div className="flex items-center gap-2">
                         <Link 
-                          className="rounded-md border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-700 hover:bg-indigo-100 transition" 
-                          href={`/patients/${patient.id}`}
+                          className="rounded-md border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-700 hover:bg-indigo-100 transition shadow-sm" 
+                          href={`/medical-records?patientId=${patient.id}`}
                         >
                           Prontuário
                         </Link>

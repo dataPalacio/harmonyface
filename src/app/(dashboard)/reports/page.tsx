@@ -1,7 +1,16 @@
 import { getDashboardKPIs, getRevenueChartData, getProcedureDistribution } from '@/lib/services/analytics-service';
 import { KPICard } from '@/components/dashboard/kpi-card';
-import { RevenueChart } from '@/components/dashboard/revenue-chart';
-import { ProcedureChart } from '@/components/dashboard/procedure-chart';
+import dynamic from 'next/dynamic';
+
+const RevenueChart = dynamic(() => import('@/components/dashboard/revenue-chart').then(mod => mod.RevenueChart), {
+  ssr: false,
+  loading: () => <div className="h-[350px] w-full animate-pulse rounded-xl bg-slate-100" />
+});
+
+const ProcedureChart = dynamic(() => import('@/components/dashboard/procedure-chart').then(mod => mod.ProcedureChart), {
+  ssr: false,
+  loading: () => <div className="h-[350px] w-full animate-pulse rounded-xl bg-slate-100" />
+});
 import { RecentActivity } from '@/components/dashboard/recent-activity';
 import { StockAlerts } from '@/components/dashboard/stock-alerts';
 import { Users, DollarSign, Calendar, TrendingUp, Activity, BarChart3 } from 'lucide-react';
