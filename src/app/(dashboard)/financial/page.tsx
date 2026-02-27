@@ -3,7 +3,6 @@
  * Displays financial records, summary statistics, and management interface
  */
 
-import { redirect } from 'next/navigation';
 import { createServerSupabaseClient } from '@/lib/auth-client';
 import { FinancialForm } from '@/components/financial/financial-form';
 import { FinancialList } from '@/components/financial/financial-list';
@@ -81,29 +80,19 @@ function toPaymentMethod(value: string | null): PaymentMethod | undefined {
 export default async function FinancialPage({ searchParams }: PageProps) {
   const supabase = await createServerSupabaseClient();
 
-  // Get authenticated user
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
-
-  if (authError || !user) {
-    redirect('/auth/login');
-  }
-
   try {
-    // Fetch all patients for selector
-    const { data: patients, error: patientsError } = await supabase
-      .from('patients')
-      .select('id, first_name, last_name')
-      .order('first_name', { ascending: true });
-
-    if (patientsError) throw patientsError;
-    const typedPatients = (patients ?? []) as PatientRow[];
-
     const patientId = searchParams.patientId;
 
     if (!patientId) {
+      // Só busca pacientes quando necessário (lista de seleção)
+      const { data: patients, error: patientsError } = await supabase
+        .from('patients')
+        .select('id, first_name, last_name')
+        .order('first_name', { ascending: true });
+
+      if (patientsError) throw patientsError;
+      const typedPatients = (patients ?? []) as PatientRow[];
+
       return (
         <div className="space-y-6">
           <h1 className="text-3xl font-bold">Gestão Financeira</h1>
@@ -127,26 +116,26 @@ export default async function FinancialPage({ searchParams }: PageProps) {
       );
     }
 
-    // Fetch financial records for selected patient
-    const { data: records, error: recordsError } = await supabase
-      .from('financial_records')
-      .select('*')
-      .eq('patient_id', patientId)
-      .order('created_at', { ascending: false });
+    // Busca dados do paciente e registros financeiros em paralelo
+    const [{ data: records, error: recordsError }, { data: patient, error: patientError }] = await Promise.all([
+      supabase
+        .from('financial_records')
+        .select('*')
+        .eq('patient_id', patientId)
+        .order('created_at', { ascending: false }),
+      supabase
+        .from('patients')
+        .select('id, first_name, last_name')
+        .eq('id', patientId)
+        .single(),
+    ]);
 
     if (recordsError) throw recordsError;
-    const typedRecords = (records ?? []) as FinancialRecordRow[];
-
-    // Fetch patient info
-    const { data: patient, error: patientError } = await supabase
-      .from('patients')
-      .select('id, first_name, last_name')
-      .eq('id', patientId)
-      .single();
 
     if (patientError || !patient) {
       return <div className="text-red-600">Paciente não encontrado</div>;
     }
+    const typedRecords = (records ?? []) as FinancialRecordRow[];
 
     // Calculate summary
     const summary = {
@@ -211,8 +200,7 @@ export default async function FinancialPage({ searchParams }: PageProps) {
         />
       </div>
     );
-  } catch (error) {
-    console.error('Financial page error:', error);
+  } catch {
     return <div className="text-red-600">Erro ao carregar dados financeiros</div>;
   }
 }

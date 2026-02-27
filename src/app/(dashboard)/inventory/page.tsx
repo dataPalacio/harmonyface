@@ -3,7 +3,6 @@
  * Displays inventory items, alerts, and stock management interface
  */
 
-import { redirect } from 'next/navigation';
 import { createServerSupabaseClient } from '@/lib/auth-client';
 import { InventoryForm } from '@/components/inventory/inventory-form';
 import { InventoryList } from '@/components/inventory/inventory-list';
@@ -69,33 +68,22 @@ function toAlertType(value: string): AlertType {
 export default async function InventoryPage() {
   const supabase = await createServerSupabaseClient();
 
-  // Get authenticated user
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
-
-  if (authError || !user) {
-    redirect('/auth/login');
-  }
-
   try {
-    // Fetch all inventory items
-    const { data: items, error: itemsError } = await supabase
-      .from('inventory_items')
-      .select('*')
-      .eq('is_active', true)
-      .order('product_name', { ascending: true });
+    // Queries paralelas para máxima performance
+    const [{ data: items, error: itemsError }, { data: alerts, error: alertsError }] = await Promise.all([
+      supabase
+        .from('inventory_items')
+        .select('*')
+        .eq('is_active', true)
+        .order('product_name', { ascending: true }),
+      supabase
+        .from('inventory_alerts')
+        .select('*')
+        .eq('is_resolved', false)
+        .order('created_at', { ascending: false }),
+    ]);
 
     if (itemsError) throw itemsError;
-
-    // Fetch active alerts
-    const { data: alerts, error: alertsError } = await supabase
-      .from('inventory_alerts')
-      .select('*')
-      .eq('is_resolved', false)
-      .order('created_at', { ascending: false });
-
     if (alertsError) throw alertsError;
 
     const typedItems = (items ?? []) as InventoryItemRow[];
@@ -177,8 +165,7 @@ export default async function InventoryPage() {
         />
       </div>
     );
-  } catch (error) {
-    console.error('Inventory page error:', error);
+  } catch {
     return <div className="text-red-600">Erro ao carregar dados de estoque</div>;
   }
 }

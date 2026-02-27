@@ -8,11 +8,13 @@ import { Users, DollarSign, Calendar, TrendingUp, Activity, BarChart3 } from 'lu
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default async function ReportsPage() {
-  // Fetch all dashboard data
-  const kpis = await getDashboardKPIs();
-  const revenueData = await getRevenueChartData(30);
+  // Busca todos os dados em paralelo para máxima performance
   const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString();
-  const procedureDistribution = await getProcedureDistribution(monthStart);
+  const [kpis, revenueData, procedureDistribution] = await Promise.all([
+    getDashboardKPIs(),
+    getRevenueChartData(30),
+    getProcedureDistribution(monthStart),
+  ]);
 
   return (
     <div className="space-y-6">

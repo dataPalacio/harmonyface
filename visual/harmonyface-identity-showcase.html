@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HarmoniFace — Visual Identity Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --brand-burgundy:       #591D1E;
+    --brand-burgundy-light: #7A2E30;
+    --brand-burgundy-dark:  #3D1314;
+    --brand-burgundy-10:    rgba(89,29,30,0.1);
+    --brand-burgundy-20:    rgba(89,29,30,0.2);
+    --brand-blush:          #E6C0B8;
+    --brand-blush-light:    #F2D8D2;
+    --brand-blush-dark:     #C9967F;
+    --brand-black:          #000000;
+    --neutral-50:           #FAF8F7;
+    --neutral-100:          #F4EFED;
+    --neutral-200:          #E8E0DE;
+    --neutral-400:          #B09E9A;
+    --neutral-600:          #6B5755;
+    --neutral-800:          #2C1F1E;
+    --neutral-900:          #160F0F;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body:    'Lato', system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--neutral-50);
+    color: var(--neutral-800);
+    overflow-x: hidden;
+  }
+
+  @keyframes harmonyFadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes aiBreathe {
+    0%, 100% { box-shadow: 0 0 8px rgba(230,192,184,0.3); }
+    50%       { box-shadow: 0 0 28px rgba(230,192,184,0.75); }
+  }
+  @keyframes floatOval {
+    0%, 100% { transform: translateY(0px) rotate(-2deg); }
+    50%       { transform: translateY(-12px) rotate(2deg); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -600px 0; }
+    100% { background-position: 600px 0; }
+  }
+  @keyframes drawLine {
+    from { width: 0; }
+    to   { width: 48px; }
+  }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ─── HERO ─────────────────────────────────── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--brand-black);
+    overflow: hidden;
+  }
+
+  /* Mesh radial — evoca luz de consultório */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 30%,
+      rgba(89,29,30,0.35) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 40% at 80% 80%,
+      rgba(230,192,184,0.08) 0%, transparent 60%);
+  }
+
+  /* Grid decorativo */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(89,29,30,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(89,29,30,0.08) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    animation: harmonyFadeIn 0.8s ease-out forwards;
+  }
+
+  /* Logo SVG inline */
+  .logo-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+    animation: floatOval 6s ease-in-out infinite;
+  }
+
+  .logo-oval {
+    width: 96px;
+    height: 120px;
+    border: 2px solid var(--brand-burgundy);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 0 40px rgba(89,29,30,0.4), inset 0 0 20px rgba(89,29,30,0.1);
+  }
+
+  .logo-kp {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--brand-blush);
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+
+  .logo-leaf {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: var(--brand-blush);
+  }
+
+  .logo-ring-outer {
+    position: absolute;
+    width: 130px;
+    height: 155px;
+    border: 1px solid rgba(230,192,184,0.2);
+    border-radius: 50%;
+    animation: aiBreathe 4s ease-in-out infinite;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: var(--brand-blush); font-style: italic; }
+
+  .hero p {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--neutral-400);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 14px 32px;
+    background: var(--brand-burgundy);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 20px rgba(89,29,30,0.4);
+    transition: all 0.25s ease;
+  }
+  .btn-primary:hover {
+    background: var(--brand-burgundy-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(89,29,30,0.5);
+  }
+
+  .btn-secondary {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--brand-blush);
+    border: 2px solid var(--brand-burgundy);
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+  }
+  .btn-secondary:hover {
+    background: var(--brand-burgundy-10);
+    border-color: var(--brand-blush);
+  }
+
+  /* ─── SECTION WRAPPER ───────────────────────── */
+  .section {
+    padding: 80px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brand-burgundy);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 700;
+    color: var(--neutral-900);
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .section-heading::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+    height: 2px;
+    width: 48px;
+    background: var(--brand-burgundy);
+    border-radius: 2px;
+    animation: drawLine 0.6s ease-out forwards;
+  }
+
+  /* ─── PALETA ────────────────────────────────── */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .color-swatch {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .swatch-block { height: 100px; }
+  .swatch-info {
+    background: #fff;
+    padding: 12px;
+    border: 1px solid var(--neutral-200);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+  }
+  .swatch-name {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--neutral-800);
+  }
+  .swatch-hex {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--neutral-600);
+    margin-top: 2px;
+  }
+
+  /* ─── TIPOGRAFIA ─────────────────────────────── */
+  .typo-section { background: #fff; border-radius: 16px; padding: 40px; border: 1px solid var(--neutral-200); margin-bottom: 24px; }
+  .typo-row { display: flex; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--neutral-100); }
+  .typo-row:last-child { border-bottom: none; }
+  .typo-label { font-family: var(--font-body); font-size: 11px; font-weight: 700; color: var(--neutral-400); letter-spacing: 2px; text-transform: uppercase; min-width: 80px; }
+
+  /* ─── LOGO VERSIONS ──────────────────────────── */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+  .logo-card {
+    border-radius: 16px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .logo-card-label {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .logo-mock {
+    width: 72px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+  }
+  .logo-mock-kp {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+  .logo-mock-leaf {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+  }
+
+  /* ─── COMPONENTES CRM ───────────────────────── */
+  .crm-demo {
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid var(--neutral-200);
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+    margin-bottom: 48px;
+  }
+
+  /* Sidebar mock */
+  .crm-layout { display: flex; min-height: 480px; }
+  .crm-sidebar {
+    width: 220px;
+    background: linear-gradient(180deg, #160F0F 0%, #000000 100%);
+    padding: 24px 16px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 8px 20px;
+    border-bottom: 1px solid rgba(89,29,30,0.3);
+    margin-bottom: 12px;
+  }
+  .sidebar-logo-icon {
+    width: 32px;
+    height: 40px;
+    border: 1px solid var(--brand-burgundy);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .sidebar-logo-text {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brand-blush);
+    line-height: 1.1;
+  }
+  .sidebar-logo-sub {
+    font-family: var(--font-body);
+    font-size: 9px;
+    color: var(--neutral-400);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--neutral-400);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-item:hover { color: var(--brand-blush); background: rgba(89,29,30,0.1); }
+  .nav-item.active {
+    background: var(--brand-burgundy);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 2px 12px rgba(89,29,30,0.4);
+  }
+  .nav-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* Main content */
+  .crm-main { flex: 1; padding: 28px; background: var(--neutral-50); overflow: hidden; }
+  .crm-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .crm-header h2 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--neutral-900);
+  }
+  .header-badge {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    background: var(--brand-burgundy-10);
+    color: var(--brand-burgundy);
+    border-radius: 20px;
+    border: 1px solid rgba(89,29,30,0.2);
+  }
+
+  /* KPI cards */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 800px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } .crm-sidebar { display: none; } }
+  .kpi-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--neutral-200);
+    box-shadow: 0 2px 8px rgba(89,29,30,0.06);
+    animation: harmonyFadeIn 0.5s ease-out both;
+  }
+  .kpi-card:nth-child(1) { animation-delay: 0.1s; }
+  .kpi-card:nth-child(2) { animation-delay: 0.2s; }
+  .kpi-card:nth-child(3) { animation-delay: 0.3s; }
+  .kpi-card:nth-child(4) { animation-delay: 0.4s; }
+  .kpi-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--brand-burgundy-10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .kpi-value {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--neutral-900);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .kpi-label {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--neutral-600);
+    margin-bottom: 8px;
+  }
+  .kpi-badge {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: inline-block;
+  }
+  .badge-up { background: #D8F3DC; color: #2D6A4F; }
+  .badge-warn { background: #FDEBD0; color: #7B4F12; }
+
+  /* Patient row */
+  .patient-list {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--neutral-200);
+    overflow: hidden;
+  }
+  .patient-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--neutral-100);
+  }
+  .patient-list-title {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--neutral-800);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .patient-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--neutral-100);
+    transition: background 0.15s;
+    cursor: pointer;
+    animation: fadeSlide 0.4s ease-out both;
+  }
+  .patient-row:last-child { border-bottom: none; }
+  .patient-row:hover { background: var(--neutral-50); }
+  .patient-row:nth-child(1) { animation-delay: 0.2s; }
+  .patient-row:nth-child(2) { animation-delay: 0.3s; }
+  .patient-row:nth-child(3) { animation-delay: 0.4s; }
+  .patient-avatar {
+    width: 32px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid var(--brand-burgundy);
+    background: linear-gradient(135deg, var(--brand-blush) 0%, var(--brand-blush-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--brand-burgundy-dark);
+    flex-shrink: 0;
+  }
+  .patient-name {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--neutral-800);
+  }
+  .patient-proc {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--neutral-600);
+  }
+  .proc-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid;
+    font-family: var(--font-body);
+    white-space: nowrap;
+  }
+
+  /* ─── AI DISCLAIMER ─────────────────────────── */
+  .ai-block {
+    border: 1px solid rgba(230,192,184,0.5);
+    background: rgba(89,29,30,0.04);
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    animation: aiBreathe 3s ease-in-out infinite;
+  }
+  .ai-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(89,29,30,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .ai-text {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--neutral-600);
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .ai-text strong {
+    font-style: normal;
+    color: var(--brand-burgundy);
+    font-weight: 700;
+  }
+
+  /* ─── BADGES PROCEDIMENTO ───────────────────── */
+  .badge-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .proc-badge {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── BUTTONS SHOWCASE ───────────────────────── */
+  .btn-grid { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+
+  .btn-blush {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 14px 32px;
+    background: var(--brand-blush);
+    color: var(--brand-burgundy-dark);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+  }
+  .btn-blush:hover { background: var(--brand-blush-dark); color: #fff; }
+
+  .btn-ghost {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 14px;
+    padding: 14px 24px;
+    background: transparent;
+    color: var(--brand-burgundy);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .btn-ghost:hover { background: var(--brand-burgundy-10); }
+
+  .btn-ai {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 14px 32px;
+    background: var(--brand-burgundy);
+    color: var(--brand-blush);
+    border: 1px solid rgba(230,192,184,0.3);
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: aiBreathe 3s ease-in-out infinite;
+    transition: all 0.25s ease;
+  }
+
+  /* ─── FOOTER ─────────────────────────────────── */
+  .showcase-footer {
+    background: var(--brand-black);
+    padding: 60px 24px;
+    text-align: center;
+  }
+  .showcase-footer h3 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--brand-blush);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  .showcase-footer p {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--neutral-600);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  /* ─── MISC ───────────────────────────────────── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--neutral-200), transparent);
+    margin: 0;
+  }
+  .chip-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .chip {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    background: var(--brand-burgundy-10);
+    color: var(--brand-burgundy);
+    border-radius: 20px;
+    border: 1px solid rgba(89,29,30,0.2);
+  }
+  .chip-line { flex: 1; height: 1px; background: var(--neutral-200); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .info-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid var(--neutral-200);
+    box-shadow: 0 2px 8px rgba(89,29,30,0.05);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- HERO                                           -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="logo-container">
+      <div class="logo-ring-outer"></div>
+      <div class="logo-oval">
+        <span class="logo-leaf">✦</span>
+        <span class="logo-kp">KP</span>
+      </div>
+    </div>
+    <h1>Harmoni<span>Face</span></h1>
+    <p>CRM · Harmonização Facial · Identidade Visual</p>
+    <div class="hero-btns">
+      <button class="btn-primary">Acessar Sistema</button>
+      <button class="btn-secondary">Ver Prontuários</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PALETA                                         -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="chip-section">
+    <span class="chip">Identidade</span>
+    <div class="chip-line"></div>
+  </div>
+  <p class="section-title">Brand Colors</p>
+  <h2 class="section-heading">Paleta de Cores</h2>
+
+  <div class="palette-grid">
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#591D1E"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Burgundy</div>
+        <div class="swatch-hex">#591D1E · Principal</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#7A2E30"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Burgundy Light</div>
+        <div class="swatch-hex">#7A2E30 · Hover</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#3D1314"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Burgundy Dark</div>
+        <div class="swatch-hex">#3D1314 · Pressed</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#E6C0B8"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Blush</div>
+        <div class="swatch-hex">#E6C0B8 · Acento</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#F2D8D2"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Blush Light</div>
+        <div class="swatch-hex">#F2D8D2 · Focus</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#C9967F"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Blush Dark</div>
+        <div class="swatch-hex">#C9967F · Tags</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#000000"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Black</div>
+        <div class="swatch-hex">#000000 · Base</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#FAF8F7; border:1px solid #E8E0DE;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Surface</div>
+        <div class="swatch-hex">#FAF8F7 · Background</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- LOGOS                                          -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="chip-section">
+    <span class="chip">Marca</span>
+    <div class="chip-line"></div>
+  </div>
+  <p class="section-title">Versões do Logotipo</p>
+  <h2 class="section-heading">Logo — Variantes</h2>
+
+  <div class="logo-grid">
+    <!-- Principal -->
+    <div class="logo-card" style="background:#000000;">
+      <div class="logo-mock" style="border:2px solid #591D1E; box-shadow:0 0 30px rgba(89,29,30,0.4);">
+        <span class="logo-mock-leaf" style="color:#E6C0B8;">✦</span>
+        <span class="logo-mock-kp" style="color:#E6C0B8;">KP</span>
+      </div>
+      <div style="text-align:center;">
+        <div class="logo-card-label" style="color:#E6C0B8;">Principal</div>
+        <div style="font-family:var(--font-body);font-size:11px;color:#6B5755;margin-top:4px;">Fundo escuro / #000000</div>
+      </div>
+    </div>
+
+    <!-- Negativo -->
+    <div class="logo-card" style="background:#591D1E;">
+      <div class="logo-mock" style="border:2px solid rgba(0,0,0,0.4);">
+        <span class="logo-mock-leaf" style="color:rgba(0,0,0,0.6);">✦</span>
+        <span class="logo-mock-kp" style="color:#3D1314;">KP</span>
+      </div>
+      <div style="text-align:center;">
+        <div class="logo-card-label" style="color:#E6C0B8;">Negativo</div>
+        <div style="font-family:var(--font-body);font-size:11px;color:rgba(230,192,184,0.6);margin-top:4px;">Fundo bordô / #591D1E</div>
+      </div>
+    </div>
+
+    <!-- Positivo -->
+    <div class="logo-card" style="background:#000000; border:1px solid #3D1314;">
+      <div class="logo-mock" style="border:2px solid rgba(255,255,255,0.8);">
+        <span class="logo-mock-leaf" style="color:#fff;">✦</span>
+        <span class="logo-mock-kp" style="color:#fff;">KP</span>
+      </div>
+      <div style="text-align:center;">
+        <div class="logo-card-label" style="color:#fff;">Positivo</div>
+        <div style="font-family:var(--font-body);font-size:11px;color:#6B5755;margin-top:4px;">P&B / Impressão</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TIPOGRAFIA                                     -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="chip-section">
+    <span class="chip">Tipo</span>
+    <div class="chip-line"></div>
+  </div>
+  <p class="section-title">Typography System</p>
+  <h2 class="section-heading">Fontes da Marca</h2>
+
+  <div class="typo-section">
+    <div class="typo-row">
+      <span class="typo-label">Hero</span>
+      <span style="font-family:var(--font-display);font-size:52px;font-weight:700;color:var(--neutral-900);letter-spacing:-1px;line-height:1;">Harmonização</span>
+    </div>
+    <div class="typo-row">
+      <span class="typo-label">H1</span>
+      <span style="font-family:var(--font-display);font-size:36px;font-weight:600;color:var(--neutral-900);">Prontuário Eletrônico</span>
+    </div>
+    <div class="typo-row">
+      <span class="typo-label">H2</span>
+      <span style="font-family:var(--font-display);font-size:28px;font-weight:500;color:var(--neutral-800);">Sessão de Atendimento</span>
+    </div>
+    <div class="typo-row">
+      <span class="typo-label">H3</span>
+      <span style="font-family:var(--font-display);font-size:22px;font-weight:500;color:var(--neutral-800);font-style:italic;">Ácido Hialurônico — Região Malar</span>
+    </div>
+    <div class="typo-row">
+      <span class="typo-label">Label</span>
+      <span style="font-family:var(--font-body);font-size:18px;font-weight:700;color:var(--neutral-900);letter-spacing:1px;text-transform:uppercase;">LOTE · VALIDADE · DOSE</span>
+    </div>
+    <div class="typo-row">
+      <span class="typo-label">Body</span>
+      <span style="font-family:var(--font-body);font-size:16px;font-weight:400;color:var(--neutral-700);line-height:1.7;">Paciente apresentou melhora significativa no contorno facial após aplicação de 0,5ml de AH de alta densidade na região malar bilateral.</span>
+    </div>
+    <div class="typo-row">
+      <span class="typo-label">Clinical</span>
+      <span style="font-family:var(--font-body);font-size:15px;font-weight:300;color:var(--neutral-600);font-style:italic;">Anotação clínica: Técnica retrógrada linear com cânula 22G. Sem intercorrências.</span>
+    </div>
+    <div class="typo-row">
+      <span class="typo-label">Micro</span>
+      <span style="font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--neutral-400);letter-spacing:3px;text-transform:uppercase;">CONFORMIDADE · ANVISA · CFM · LGPD</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- CRM DEMO                                       -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="chip-section">
+    <span class="chip">Interface</span>
+    <div class="chip-line"></div>
+  </div>
+  <p class="section-title">CRM Components</p>
+  <h2 class="section-heading">Interface do Sistema</h2>
+
+  <div class="crm-demo">
+    <div class="crm-layout">
+      <!-- Sidebar -->
+      <div class="crm-sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">
+            <span style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--brand-blush);">KP</span>
+          </div>
+          <div>
+            <div class="sidebar-logo-text">HarmoniFace</div>
+            <div class="sidebar-logo-sub">Facial CRM</div>
+          </div>
+        </div>
+        <div class="nav-item active"><span class="nav-dot"></span>Dashboard</div>
+        <div class="nav-item"><span class="nav-dot"></span>Pacientes</div>
+        <div class="nav-item"><span class="nav-dot"></span>Agenda</div>
+        <div class="nav-item"><span class="nav-dot"></span>Prontuários</div>
+        <div class="nav-item"><span class="nav-dot"></span>Estoque</div>
+        <div class="nav-item"><span class="nav-dot"></span>Financeiro</div>
+        <div class="nav-item" style="margin-top:auto;"><span class="nav-dot"></span>IA Clínica ✦</div>
+      </div>
+
+      <!-- Main -->
+      <div class="crm-main">
+        <div class="crm-header">
+          <h2>Dashboard</h2>
+          <span class="header-badge">Quinta-feira, 27 Fev</span>
+        </div>
+
+        <!-- KPIs -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon">💰</div>
+            <div class="kpi-value">R$14.200</div>
+            <div class="kpi-label">Faturamento</div>
+            <span class="kpi-badge badge-up">↑ 12%</span>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">👤</div>
+            <div class="kpi-value">38</div>
+            <div class="kpi-label">Pacientes</div>
+            <span class="kpi-badge badge-up">↑ 4</span>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">🗓</div>
+            <div class="kpi-value">6</div>
+            <div class="kpi-label">Hoje</div>
+            <span class="kpi-badge badge-warn">2 pendentes</span>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">📦</div>
+            <div class="kpi-value">94%</div>
+            <div class="kpi-label">Estoque OK</div>
+            <span class="kpi-badge badge-up">✓ Regular</span>
+          </div>
+        </div>
+
+        <!-- Pacientes recentes -->
+        <div class="patient-list">
+          <div class="patient-list-header">
+            <span class="patient-list-title">Atendimentos de Hoje</span>
+            <span style="font-size:11px;font-family:var(--font-body);color:var(--brand-burgundy);cursor:pointer;font-weight:700;">Ver todos →</span>
+          </div>
+          <div class="patient-row">
+            <div class="patient-avatar">AM</div>
+            <div style="flex:1;">
+              <div class="patient-name">Ana Maria Santos</div>
+              <div class="patient-proc">09:00 · Glabela + Frontal</div>
+            </div>
+            <span class="proc-tag" style="background:#f5f0ff;color:#5b21b6;border-color:#ddd6fe;">Toxina Bot.</span>
+          </div>
+          <div class="patient-row">
+            <div class="patient-avatar">CL</div>
+            <div style="flex:1;">
+              <div class="patient-name">Carla Lima Ferreira</div>
+              <div class="patient-proc">11:00 · Região Malar</div>
+            </div>
+            <span class="proc-tag" style="background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe;">Ác. Hialurônico</span>
+          </div>
+          <div class="patient-row">
+            <div class="patient-avatar">JP</div>
+            <div style="flex:1;">
+              <div class="patient-name">Juliana Pereira</div>
+              <div class="patient-proc">14:30 · Full Face</div>
+            </div>
+            <span class="proc-tag" style="background:#f0fdf4;color:#166534;border-color:#bbf7d0;">Bioestimulador</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- BOTÕES + BADGES                                -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="grid-2">
+    <div class="info-card">
+      <div class="chip-section" style="margin-bottom:12px;">
+        <span class="chip">UI</span>
+        <div class="chip-line"></div>
+      </div>
+      <p class="section-title" style="margin-bottom:24px;">Button System</p>
+      <div class="btn-grid">
+        <button class="btn-primary">Salvar</button>
+        <button class="btn-secondary">Cancelar</button>
+        <button class="btn-blush">Agendar</button>
+        <button class="btn-ghost">Ver mais</button>
+        <button class="btn-ai">✦ IA Clínica</button>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="chip-section" style="margin-bottom:12px;">
+        <span class="chip">Clínico</span>
+        <div class="chip-line"></div>
+      </div>
+      <p class="section-title" style="margin-bottom:8px;">Procedure Badges</p>
+      <div class="badge-grid">
+        <span class="proc-badge" style="background:#f5f0ff;color:#5b21b6;border-color:#ddd6fe;">Toxina Botulínica</span>
+        <span class="proc-badge" style="background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe;">Ácido Hialurônico</span>
+        <span class="proc-badge" style="background:#f0fdf4;color:#166534;border-color:#bbf7d0;">Bioestimulador</span>
+        <span class="proc-badge" style="background:#fffbeb;color:#92400e;border-color:#fde68a;">Fios PDO</span>
+        <span class="proc-badge" style="background:#ecfeff;color:#155e75;border-color:#a5f3fc;">Skinbooster</span>
+        <span class="proc-badge" style="background:#fff7ed;color:#9a3412;border-color:#fed7aa;">Peeling</span>
+        <span class="proc-badge" style="background:#fff1f2;color:#9f1239;border-color:#fecdd3;">Microagulhamento</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Disclaimer -->
+  <div style="margin-top:32px;">
+    <div class="chip-section" style="margin-bottom:20px;">
+      <span class="chip">IA</span>
+      <div class="chip-line"></div>
+    </div>
+    <div class="ai-block">
+      <div class="ai-icon">✦</div>
+      <p class="ai-text">
+        <strong>Sugestão gerada por IA.</strong>
+        Com base no histórico da paciente e procedimentos anteriores, sugerimos aplicação de 1,0ml de AH de médio peso molecular na região malar direita, técnica bolus profundo. A decisão clínica é de responsabilidade exclusiva do profissional habilitado.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- FOOTER                                         -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="showcase-footer">
+  <h3>HarmoniFace</h3>
+  <p>Visual Identity System · v1.0.0 · Playfair Display + Lato</p>
+  <div style="margin-top:24px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+    <span style="font-family:var(--font-body);font-size:10px;color:#3D1314;letter-spacing:2px;">#591D1E</span>
+    <span style="font-family:var(--font-body);font-size:10px;color:#6B5755;letter-spacing:2px;">·</span>
+    <span style="font-family:var(--font-body);font-size:10px;color:#C9967F;letter-spacing:2px;">#E6C0B8</span>
+    <span style="font-family:var(--font-body);font-size:10px;color:#6B5755;letter-spacing:2px;">·</span>
+    <span style="font-family:var(--font-body);font-size:10px;color:#6B5755;letter-spacing:2px;">#000000</span>
+  </div>
+</div>
+
+</body>
+</html>

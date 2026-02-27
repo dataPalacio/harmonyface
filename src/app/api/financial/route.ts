@@ -14,7 +14,7 @@ import {
 
 export async function GET(request: NextRequest) {
   try {
-    const user = await requireApiUser();
+    await requireApiUser();
     const patientId = request.nextUrl.searchParams.get('patientId');
 
     if (!patientId) {
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const user = await requireApiUser();
+    await requireApiUser();
     const body = await request.json();
 
     if (!body.patientId || !body.recordType || !body.description || body.totalAmount === undefined) {
