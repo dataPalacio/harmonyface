@@ -111,11 +111,8 @@ export function AppointmentsCalendar({ initialAppointments, patients, procedures
         <select className="rounded-md border px-3 py-2" defaultValue="scheduled" name="status">
           <option value="scheduled">Agendado</option>
           <option value="confirmed">Confirmado</option>
-          <option value="in_progress">Em atendimento</option>
           <option value="completed">Concluído</option>
           <option value="cancelled">Cancelado</option>
-          <option value="no_show">No-show</option>
-          <option value="blocked">Bloqueio</option>
         </select>
 
         <select className="rounded-md border px-3 py-2" defaultValue="false" name="isBlocked">

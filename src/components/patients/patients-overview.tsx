@@ -27,6 +27,24 @@ function calculateAge(birthDate?: string) {
   return age;
 }
 
+function formatCPF(cpf?: string) {
+  if (!cpf) return '';
+  const digits = cpf.replace(/\D/g, '');
+  if (digits.length !== 11) return cpf;
+  return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+}
+
+function formatPhone(phone?: string) {
+  if (!phone) return '';
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length === 11) {
+    return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+  } else if (digits.length === 10) {
+    return digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+  }
+  return phone;
+}
+
 export function PatientsOverview({ patients }: PatientsOverviewProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
@@ -72,12 +90,13 @@ export function PatientsOverview({ patients }: PatientsOverviewProps) {
     
     // Filtro por nome, CPF, telefone ou email
     const filtered = patients.filter((p) => {
-      return (
-        p.fullName.toLowerCase().includes(term) ||
-        (p.cpf && p.cpf.includes(term)) ||
-        (p.phone && p.phone.includes(term)) ||
-        (p.email && p.email.toLowerCase().includes(term))
-      );
+      const digitsOnlyTerm = term.replace(/\D/g, '');
+      const matchesName = p.fullName.toLowerCase().includes(term);
+      const matchesEmail = p.email && p.email.toLowerCase().includes(term);
+      const matchesCPF = digitsOnlyTerm && p.cpf && p.cpf.includes(digitsOnlyTerm);
+      const matchesPhone = digitsOnlyTerm && p.phone && p.phone.includes(digitsOnlyTerm);
+
+      return matchesName || matchesEmail || !!matchesCPF || !!matchesPhone;
     });
 
     // Ordenação A-Z ou Z-A
@@ -173,11 +192,12 @@ export function PatientsOverview({ patients }: PatientsOverviewProps) {
             </div>
 
             <div className="space-y-1">
-              <label className="text-sm font-medium">CPF</label>
+              <label className="text-sm font-medium">CPF *</label>
               <input 
                 {...register('cpf')} 
+                maxLength={11}
                 className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" 
-                placeholder="000.000.000-00" 
+                placeholder="Apenas os 11 números" 
               />
               {errors.cpf && <p className="text-xs text-red-600">{errors.cpf.message}</p>}
             </div>
@@ -192,12 +212,14 @@ export function PatientsOverview({ patients }: PatientsOverviewProps) {
                 />
               </div>
               <div className="space-y-1">
-                <label className="text-sm font-medium">Telefone</label>
+                <label className="text-sm font-medium">Telefone *</label>
                 <input 
                   {...register('phone')} 
+                  maxLength={11}
                   className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" 
-                  placeholder="(11) 90000-0000" 
+                  placeholder="DDD + Número (somente números)" 
                 />
+                {errors.phone && <p className="text-xs text-red-600">{errors.phone.message}</p>}
               </div>
             </div>
 
@@ -290,7 +312,7 @@ export function PatientsOverview({ patients }: PatientsOverviewProps) {
                         </p>
                         <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
                           {patient.phone ? (
-                            <span className="flex items-center gap-1"><Phone className="h-3 w-3" /> {patient.phone}</span>
+                            <span className="flex items-center gap-1"><Phone className="h-3 w-3" /> {formatPhone(patient.phone)}</span>
                           ) : (
                             <span className="text-slate-400 italic">Sem telefone</span>
                           )}
@@ -298,7 +320,7 @@ export function PatientsOverview({ patients }: PatientsOverviewProps) {
                             <span className="flex items-center gap-1"><Mail className="h-3 w-3" /> {patient.email}</span>
                           ) : null}
                           {patient.cpf ? (
-                            <span className="text-slate-500 font-mono text-xs">CPF: {patient.cpf}</span>
+                            <span className="text-slate-500 font-mono text-xs">CPF: {formatCPF(patient.cpf)}</span>
                           ) : null}
                         </div>
                       </div>

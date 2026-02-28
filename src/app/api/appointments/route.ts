@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     roomName?: string;
     scheduledAt?: string;
     durationMin?: number;
-    status?: 'scheduled' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled' | 'no_show' | 'blocked';
+    status?: 'scheduled' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled';
     notes?: string;
     isBlocked?: boolean;
   };

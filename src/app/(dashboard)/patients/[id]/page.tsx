@@ -41,8 +41,8 @@ export default async function PatientDetailPage({ params }: { params: { id: stri
           <input className="w-full rounded-md border px-3 py-2" defaultValue={patient.fullName} name="fullName" required />
         </div>
         <div className="space-y-1">
-          <label className="text-sm font-medium">CPF</label>
-          <input className="w-full rounded-md border px-3 py-2" defaultValue={patient.cpf ?? ''} name="cpf" />
+          <label className="text-sm font-medium">CPF *</label>
+          <input className="w-full rounded-md border px-3 py-2" defaultValue={patient.cpf ?? ''} name="cpf" required maxLength={11} placeholder="Apenas 11 números" />
         </div>
         <div className="space-y-1">
           <label className="text-sm font-medium">Data de nascimento</label>
@@ -53,8 +53,8 @@ export default async function PatientDetailPage({ params }: { params: { id: stri
           <input className="w-full rounded-md border px-3 py-2" defaultValue={patient.gender ?? ''} name="gender" />
         </div>
         <div className="space-y-1">
-          <label className="text-sm font-medium">Telefone</label>
-          <input className="w-full rounded-md border px-3 py-2" defaultValue={patient.phone ?? ''} name="phone" />
+          <label className="text-sm font-medium">Telefone *</label>
+          <input className="w-full rounded-md border px-3 py-2" defaultValue={patient.phone ?? ''} name="phone" required maxLength={11} placeholder="Apenas números (DDD + Tel)" />
         </div>
         <div className="space-y-1">
           <label className="text-sm font-medium">Email</label>

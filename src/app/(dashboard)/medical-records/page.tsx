@@ -19,6 +19,13 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
+function formatCPF(cpf?: string) {
+  if (!cpf) return '';
+  const digits = cpf.replace(/\D/g, '');
+  if (digits.length !== 11) return cpf;
+  return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+}
+
 export default async function MedicalRecordsPage({
   searchParams,
 }: {
@@ -91,7 +98,7 @@ export default async function MedicalRecordsPage({
             <div className="space-y-1">
               <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">{patient.fullName}</h1>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-500">
-                <span className="font-medium bg-slate-100 px-2 py-0.5 rounded text-slate-700">CPF: {patient.cpf || 'Não informado'}</span>
+                <span className="font-medium bg-slate-100 px-2 py-0.5 rounded text-slate-700">CPF: {patient.cpf ? formatCPF(patient.cpf) : 'Não informado'}</span>
                 {patient.birthDate && (
                   <span className="flex items-center gap-1">
                     <Calendar className="h-3.5 w-3.5" />

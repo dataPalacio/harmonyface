@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.0] - 2026-02-28
+
+### Adicionado
+
+- Módulo de Prontuário Digital completo (Timeline, Resumo Clínico, Fotos e Sessões).
+- Documentação oficial do plano de uso do Prontuário em `docs/PRONTUARIO.md`.
+- Regras de campos obrigatórios (Nome, CPF e Telefone) no cadastro de pacientes.
+
+### Alterado
+
+- Normalização de dados: CPF e Telefone agora são salvos apenas como números (11 dígitos).
+- Formatação automática de visualização para CPF (XXX.XXX.XXX-XX) e Telefone ((XX) XXXXX-XXXX).
+- Otimização da busca de pacientes ignorando pontuação em campos numéricos.
+
 ## [0.1.0] - 2026-02-27
 
 ### Added

@@ -11,6 +11,24 @@ type PatientSearchSelectorProps = {
   baseUrl?: string; // Default to /medical-records?patientId=
 };
 
+function formatCPF(cpf?: string) {
+  if (!cpf) return '';
+  const digits = cpf.replace(/\D/g, '');
+  if (digits.length !== 11) return cpf;
+  return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+}
+
+function formatPhone(phone?: string) {
+  if (!phone) return '';
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length === 11) {
+    return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+  } else if (digits.length === 10) {
+    return digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+  }
+  return phone;
+}
+
 export function PatientSearchSelector({ patients, onSelect, baseUrl = '/medical-records' }: PatientSearchSelectorProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
@@ -19,12 +37,13 @@ export function PatientSearchSelector({ patients, onSelect, baseUrl = '/medical-
     const term = searchTerm.toLowerCase();
     
     const filtered = patients.filter((p) => {
-      return (
-        p.fullName.toLowerCase().includes(term) ||
-        (p.cpf && p.cpf.includes(term)) ||
-        (p.phone && p.phone.includes(term)) ||
-        (p.email && p.email.toLowerCase().includes(term))
-      );
+      const digitsOnlyTerm = term.replace(/\D/g, '');
+      const matchesName = p.fullName.toLowerCase().includes(term);
+      const matchesEmail = p.email && p.email.toLowerCase().includes(term);
+      const matchesCPF = digitsOnlyTerm && p.cpf && p.cpf.includes(digitsOnlyTerm);
+      const matchesPhone = digitsOnlyTerm && p.phone && p.phone.includes(digitsOnlyTerm);
+
+      return matchesName || matchesEmail || !!matchesCPF || !!matchesPhone;
     });
 
     filtered.sort((a, b) => {
@@ -98,13 +117,13 @@ export function PatientSearchSelector({ patients, onSelect, baseUrl = '/medical-
                     </p>
                     <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
                       {patient.phone && (
-                        <span className="flex items-center gap-1"><Phone className="h-3 w-3" /> {patient.phone}</span>
+                        <span className="flex items-center gap-1"><Phone className="h-3 w-3" /> {formatPhone(patient.phone)}</span>
                       )}
                       {patient.email && (
                         <span className="flex items-center gap-1"><Mail className="h-3 w-3" /> {patient.email}</span>
                       )}
                       {patient.cpf && (
-                        <span className="text-slate-500 font-mono text-xs">CPF: {patient.cpf}</span>
+                        <span className="text-slate-500 font-mono text-xs">CPF: {formatCPF(patient.cpf)}</span>
                       )}
                     </div>
                   </div>

@@ -20,7 +20,13 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     isBlocked?: boolean;
   };
 
-  const appointment = await updateAppointment(params.id, body);
+  // Ensure scheduledAt is always a string if present, as updateAppointment expects AppointmentInput
+  const updateData = {
+    ...body,
+    scheduledAt: body.scheduledAt ? String(body.scheduledAt) : undefined
+  } as any;
+
+  const appointment = await updateAppointment(params.id, updateData);
   if (!appointment) {
     return NextResponse.json({ error: 'Não foi possível atualizar o agendamento.' }, { status: 400 });
   }
